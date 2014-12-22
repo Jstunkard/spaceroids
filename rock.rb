@@ -22,7 +22,8 @@ class Rock
   end
 
   def randomize(player)
-    @magnitude = 2
+    magitude_factor = rand(200) / 100
+    @magnitude = 2 * magitude_factor
     @angle = rand(360)
     @vel_angle = (rand(200) - 100) / 100.0
 
