@@ -1,6 +1,7 @@
 # Rock Class
 
 class Rock
+  attr_reader :vel_x, :vel_y
   IMAGES = (1..7).map { |i| "rock#{i}.png" }
   def initialize(window, player, x = nil, y = nil, vel_x = nil, vel_y = nil, scale = nil, angle = 1)
     src = IMAGES[rand(IMAGES.length)]
@@ -21,10 +22,12 @@ class Rock
   end
 
   def randomize(player)
-    @vel_x = rand(200) / 100.0
-    @vel_y = rand(200) / 100.0
+    @magnitude = 2
     @angle = rand(360)
     @vel_angle = (rand(200) - 100) / 100.0
+
+    @vel_x = Gosu::offset_x(@angle, @magnitude)
+    @vel_y = Gosu::offset_y(@angle, @magnitude)
 
     @scale = 2
     begin 
@@ -36,7 +39,6 @@ class Rock
   end
 
   def move
-#    @angle += @vel_angle
     @x += @vel_x
     @y += @vel_y
     @x %= SCREEN_X
@@ -53,7 +55,16 @@ class Rock
   def explode
     if @scale == 2
       @scale = 1
-      [Rock.new(@window, @player, @x , @y, @vel_x, @vel_y, @scale, @angle), Rock.new(@window, @player, @x , @y, @vel_x, @vel_y, @scale, @angle)]
+      angle_1 = @angle + 45
+      angle_2 = @angle - 45
+      vel_x1 = Gosu::offset_x(angle_1, @magnitude)
+      vel_y1 = Gosu::offset_y(angle_1, @magnitude)
+
+      vel_x2 = Gosu::offset_x(angle_2, @magnitude)
+      vel_y2 = Gosu::offset_y(angle_2, @magnitude)
+
+      [Rock.new(@window, @player, @x , @y, vel_x1, vel_y1, @scale, angle_1), Rock.new(@window, @player, @x , @y, vel_x2, vel_y2, @scale, angle_2)]
+
     else
       []
     end
