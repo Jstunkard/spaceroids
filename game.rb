@@ -96,8 +96,6 @@ class GameWindow < Gosu::Window
     @rocks.each { |r| r.draw }
 
     @bullets.each do |bullet|  
-#      @bullet.each { |b| b.draw }
-
       bullet.draw
       bullet.accelerate
       bullet.move
@@ -105,7 +103,7 @@ class GameWindow < Gosu::Window
     
     @font.draw("Lives Remaining: #{@player.life}", 10, 25, ZOrder::UI, 1.0, 1.0, 0xffffff00)
     @font.draw("Score: #{@player.score}", 10, 10, ZOrder::UI, 1.0, 1.0, 0xffffff00)
-
+    @font.draw("Level: #{@level}",10,40, ZOrder::UI,1.0,1.0,0xffffff00)
     
     if @gameover
       @font.draw("#{@player.gameover}", 320, 240, ZOrder::UI, 1.0, 1.0, 0xffffff00)
@@ -137,7 +135,6 @@ class GameWindow < Gosu::Window
     @player.draw
 
     @menu.draw
-
 
   end
 
